@@ -1,0 +1,32 @@
+[
+  {
+    "id": 200001,
+    "currency": "CHF",
+    "type": "STANDARD",
+    "name": null,
+    "icon": null,
+    "investmentState": "NOT_INVESTED",
+    "amount": {"value": 1520.35, "currency": "CHF"},
+    "reservedAmount": {"value": 0, "currency": "CHF"},
+    "cashAmount": {"value": 1520.35, "currency": "CHF"},
+    "totalWorth": {"value": 1520.35, "currency": "CHF"},
+    "creationTime": "2026-01-12T09:14:02.371Z",
+    "modificationTime": "2026-10-08T15:02:11.104Z",
+    "visible": true
+  },
+  {
+    "id": 200002,
+    "currency": "EUR",
+    "type": "STANDARD",
+    "name": null,
+    "icon": null,
+    "investmentState": "NOT_INVESTED",
+    "amount": {"value": 310.00, "currency": "EUR"},
+    "reservedAmount": {"value": 0, "currency": "EUR"},
+    "cashAmount": {"value": 310.00, "currency": "EUR"},
+    "totalWorth": {"value": 310.00, "currency": "EUR"},
+    "creationTime": "2026-01-12T09:15:40.002Z",
+    "modificationTime": "2026-10-07T08:41:55.930Z",
+    "visible": true
+  }
+]

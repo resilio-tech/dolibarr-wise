@@ -50,3 +50,95 @@ function wiseAdminPrepareHead()
 
 	return $head;
 }
+
+/**
+ * Whether the scheduled job has to work at this hour, Swiss time.
+ *
+ * @param array<int, int|string> $hours Hours the job works at, empty for every hour
+ * @param int|null               $now   Timestamp, current time when null
+ * @return bool
+ */
+function wiseIsCheckHour(array $hours, $now = null)
+{
+	if (empty($hours)) {
+		return true;
+	}
+
+	$date = new DateTime('@'.($now === null ? time() : (int) $now));
+	$date->setTimezone(new DateTimeZone('Europe/Zurich'));
+
+	return in_array((int) $date->format('G'), array_map('intval', $hours), true);
+}
+
+/**
+ * Yesterday, Swiss time.
+ *
+ * @param int|null $now Timestamp, current time when null
+ * @return string YYYY-MM-DD
+ */
+function wiseYesterday($now = null)
+{
+	$date = new DateTime('@'.($now === null ? time() : (int) $now));
+	$date->setTimezone(new DateTimeZone('Europe/Zurich'));
+	$date->modify('-1 day');
+
+	return $date->format('Y-m-d');
+}
+
+/**
+ * Currencies whose statements are fetched, from the setup.
+ *
+ * @param string|null $value Setup value, read from the setup when null
+ * @return string[]
+ */
+function wiseCurrencies($value = null)
+{
+	if ($value === null) {
+		$value = getDolGlobalString('WISE_CURRENCIES');
+	}
+
+	$currencies = array();
+	foreach (preg_split('/[\s,;]+/', strtoupper($value)) as $currency) {
+		if (preg_match('/^[A-Z]{3}$/', $currency) && !in_array($currency, $currencies, true)) {
+			$currencies[] = $currency;
+		}
+	}
+
+	return $currencies;
+}
+
+/**
+ * Id of the standard balance in a currency.
+ *
+ * @param array<int, array<string, mixed>> $balances Balances as listed by Wise
+ * @param string                           $currency Currency
+ * @return int|null Null if the profile has no balance in that currency
+ */
+function wiseBalanceId(array $balances, $currency)
+{
+	foreach ($balances as $balance) {
+		if (isset($balance['id'], $balance['currency']) && $balance['currency'] === $currency && (!isset($balance['type']) || $balance['type'] === 'STANDARD')) {
+			return (int) $balance['id'];
+		}
+	}
+
+	return null;
+}
+
+/**
+ * Wise client built from the setup.
+ *
+ * @return WiseClient|null Null when no token is set
+ */
+function wiseCreateClient()
+{
+	require_once __DIR__.'/../class/WiseClient.class.php';
+
+	$token = dolDecrypt(getDolGlobalString('WISE_API_TOKEN'));
+	if ($token === '') {
+		return null;
+	}
+	$baseUrl = getDolGlobalString('WISE_ENVIRONMENT') === 'live' ? WiseClient::URL_LIVE : WiseClient::URL_SANDBOX;
+
+	return new WiseClient($baseUrl, $token, dolDecrypt(getDolGlobalString('WISE_PRIVATE_KEY')));
+}

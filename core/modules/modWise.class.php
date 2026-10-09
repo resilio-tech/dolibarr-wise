@@ -77,7 +77,22 @@ class modWise extends DolibarrModules
 		$this->tabs = array();
 		$this->dictionaries = array();
 		$this->boxes = array();
-		$this->cronjobs = array();
+		$this->cronjobs = array(
+			0 => array(
+				'label' => 'Fetch the Wise CAMT.053 statements',
+				'jobtype' => 'method',
+				'class' => '/wise/class/WiseCronRunner.class.php',
+				'objectname' => 'WiseCronRunner',
+				'method' => 'run',
+				'parameters' => '7',
+				'comment' => 'Every hour, works at the hours given as parameters (Swiss time): fetches from Wise every daily CAMT.053 statement still missing up to yesterday',
+				'frequency' => 1,
+				'unitfrequency' => 3600,
+				'status' => 0,
+				'test' => 'isModEnabled("wise")',
+				'priority' => 50,
+			),
+		);
 		$this->rights = array();
 		$this->menu = array();
 	}
@@ -92,6 +107,11 @@ class modWise extends DolibarrModules
 	 */
 	public function init($options = '')
 	{
+		$result = $this->_load_tables('/wise/sql/');
+		if ($result < 0) {
+			return -1;
+		}
+
 		$this->remove($options);
 
 		return $this->_init(array(), $options);

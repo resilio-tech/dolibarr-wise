@@ -65,7 +65,12 @@ class ModWiseTest extends TestCase
 	 */
 	public function testLanguageFilesDefineUsedKeys(): void
 	{
-		$keys = array('ModuleWiseName', 'ModuleWiseDesc', 'WiseDescription', 'WiseSetup', 'WiseAbout', 'WiseNothingToSetup');
+		$keys = array('ModuleWiseName', 'ModuleWiseDesc', 'WiseDescription', 'WiseAbout');
+		foreach (glob(__DIR__.'/../../admin/*.php') as $page) {
+			preg_match_all('/["\'](Wise[A-Z][A-Za-z]*)["\']/', (string) file_get_contents($page), $matches);
+			$keys = array_merge($keys, $matches[1]);
+		}
+		$keys = array_unique($keys);
 
 		$files = glob(__DIR__.'/../../langs/*/wise.lang');
 		$this->assertCount(2, $files);

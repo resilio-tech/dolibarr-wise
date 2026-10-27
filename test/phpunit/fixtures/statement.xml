@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02">
+  <BkToCstmrStmt>
+    <GrpHdr>
+      <MsgId>200001-20261008</MsgId>
+      <CreDtTm>2026-10-09T05:00:12</CreDtTm>
+    </GrpHdr>
+    <Stmt>
+      <Id>200001-20261008</Id>
+      <CreDtTm>2026-10-09T05:00:12</CreDtTm>
+      <FrToDt>
+        <FrDtTm>2026-10-07T22:00:00</FrDtTm>
+        <ToDtTm>2026-10-08T21:59:59</ToDtTm>
+      </FrToDt>
+      <Acct>
+        <Id><Othr><Id>200001</Id></Othr></Id>
+        <Ccy>CHF</Ccy>
+      </Acct>
+      <Bal>
+        <Tp><CdOrPrtry><Cd>OPBD</Cd></CdOrPrtry></Tp>
+        <Amt Ccy="CHF">1420.35</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <Dt><Dt>2026-10-08</Dt></Dt>
+      </Bal>
+      <Bal>
+        <Tp><CdOrPrtry><Cd>CLBD</Cd></CdOrPrtry></Tp>
+        <Amt Ccy="CHF">1520.35</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <Dt><Dt>2026-10-08</Dt></Dt>
+      </Bal>
+      <Ntry>
+        <Amt Ccy="CHF">100.00</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt><Dt>2026-10-08</Dt></BookgDt>
+        <ValDt><Dt>2026-10-08</Dt></ValDt>
+        <AcctSvcrRef>TRANSFER-123456789</AcctSvcrRef>
+        <BkTxCd><Prtry><Cd>DEPOSIT</Cd></Prtry></BkTxCd>
+      </Ntry>
+    </Stmt>
+  </BkToCstmrStmt>
+</Document>
